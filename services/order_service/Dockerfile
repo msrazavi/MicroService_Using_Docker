@@ -13,4 +13,4 @@ ENV FLASK_RUN_HOST=0.0.0.0
 
 EXPOSE 5000
 
-CMD ["python", "user_service.py"]
+CMD ["python", "order_service.py"]
