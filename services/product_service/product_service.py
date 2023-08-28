@@ -49,8 +49,10 @@ def update_product(product_id):
     if not product:
         return jsonify({'message': 'Product not found'})
     data = request.get_json()
-    product.name = data['name']
-    product.price = data['price']
+    if 'name' in data:
+        product.name = data['name']
+    if 'price' in data:
+        product.price = data['price']
     digi_database.session.commit()
     return jsonify({'message': 'Product updated successfully'})
 
@@ -66,6 +68,6 @@ def delete_product(product_id):
 
 
 if __name__ == '__main__':
-    print('User Service starting...')
+    print('Product Service starting...')
     create_table()
     app.run(host='0.0.0.0', port=5000)

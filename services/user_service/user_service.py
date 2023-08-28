@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:ttrrssmm@localhost:5432/postgres'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://myuser:digipass@postgres-container:5432/digi_database'
 digi_database = SQLAlchemy(app)
 
@@ -49,8 +50,10 @@ def update_user(user_id):
     if not user:
         return jsonify({'message': 'User not found'})
     data = request.get_json()
-    user.name = data['name']
-    user.email = data['email']
+    if "name" in data:
+        user.name = data['name']
+    if "email" in data:
+        user.email = data['email']
     digi_database.session.commit()
     return jsonify({'message': 'User updated successfully'})
 

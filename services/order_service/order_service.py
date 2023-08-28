@@ -15,20 +15,22 @@ def create_table():
 class Order(digi_database.Model):
     id = digi_database.Column(digi_database.Integer, primary_key=True)
     product_id = digi_database.Column(digi_database.Integer, digi_database.ForeignKey('product.id'))
+    user_id = digi_database.Column(digi_database.Integer, digi_database.ForeignKey('user.id'))
     quantity = digi_database.Column(digi_database.Integer)
 
 
 @app.route('/orders', methods=['GET'])
 def get_orders():
     orders = Order.query.all()
-    result = [{'id': order.id, 'product_id': order.product_id, 'quantity': order.quantity} for order in orders]
+    result = [{'id': order.id, 'product_id': order.product_id, 'user_id': order.user_id, 'quantity': order.quantity} for
+              order in orders]
     return jsonify(result)
 
 
 @app.route('/orders', methods=['POST'])
 def create_order():
     data = request.get_json()
-    order = Order(product_id=data['product_id'], quantity=data['quantity'])
+    order = Order(product_id=data['product_id'], user_id=data['user_id'], quantity=data['quantity'])
     digi_database.session.add(order)
     digi_database.session.commit()
     return jsonify({'message': 'Order created successfully'})
@@ -39,7 +41,7 @@ def get_order(order_id):
     order = Order.query.get(order_id)
     if not order:
         return jsonify({'message': 'Order not found'})
-    result = {'id': order.id, 'product_id': order.product_id, 'quantity': order.quantity}
+    result = {'id': order.id, 'product_id': order.product_id, 'user_id': order.user_id, 'quantity': order.quantity}
     return jsonify(result)
 
 
@@ -49,8 +51,12 @@ def update_order(order_id):
     if not order:
         return jsonify({'message': 'Order not found'})
     data = request.get_json()
-    order.product_id = data['product_id']
-    order.quantity = data['quantity']
+    if 'product_id' in data:
+        order.product_id = data['product_id']
+    if 'quantity' in data:
+        order.quantity = data['quantity']
+    if 'user_id' in data:
+        order.user_id = data['user_id']
     digi_database.session.commit()
     return jsonify({'message': 'Order updated successfully'})
 
@@ -66,6 +72,6 @@ def delete_order(order_id):
 
 
 if __name__ == '__main__':
-    print('User Service starting...')
+    print('Order Service starting...')
     create_table()
     app.run(host='0.0.0.0', port=5000)
