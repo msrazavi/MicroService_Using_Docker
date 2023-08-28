@@ -1,0 +1,4 @@
+CREATE DATABASE digi_database;
+CREATE USER myuser WITH ENCRYPTED PASSWORD 'digipass';
+GRANT ALL PRIVILEGES ON DATABASE digi_database TO myuser;
+
