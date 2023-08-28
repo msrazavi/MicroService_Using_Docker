@@ -57,10 +57,11 @@
 ![img_13.png](images/images2/img_13.png)
 ![img_14.png](images/images2/img_14.png)
 ![img_15.png](images/images2/img_15.png)
-
+![img.png](images/images3/img.png)
+![img_1.png](images/images3/img_1.png)
 ## رسم نمودار UML
 از نمودار Component استفاده می‌کنیم:
-
+![img_2.png](images/images3/img_2.png)
 
 
 # پرسش‌ها
